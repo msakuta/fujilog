@@ -5,9 +5,10 @@ htmlHeader();
 $freq = 10;
 $maxc = 50;
 
-if($_GET['freq'])
+// Prevent access to invalid keys
+if(isset($_GET['freq']))
 	$freq = $_GET['freq'];
-if($_GET['maxc'])
+if(isset($_GET['maxc']))
 	$maxc = $_GET['maxc'];
 
 ?>
