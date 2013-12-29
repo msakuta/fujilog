@@ -25,9 +25,12 @@ Count <input name="maxc" type="edit" value=<?php echo '"' . $maxc . '"'; ?> ><br
 are averaged for each image.</p>
 <p>It hardly tells anything about the image's content, but at least we
 can tell if it's day or night.</p>
+<canvas id="graph" width="400px" height="200px" style="width: 400px; height: 200px;"></canvas>
+<p>
 <?php
 
 $fp = fopen('upload.log', 'r');
+$stats = array();
 if($fp){
 	$a = array();
 	$i = 0;
@@ -49,6 +52,7 @@ if($fp){
 			'<td>' . $stat["mean"] . '</td>' .
 			'<td>' . $stat["standardDeviation"] . '</td>' .
 			"</tr>\n";
+		$stats[] = $stat;
 	}
 	echo "</table>";
 }
@@ -56,6 +60,53 @@ else{
 	echo 'not found';
 }
 ?>
+
+<script type="text/javascript">
+var canvas;
+
+var statsMean = [
+<?php
+for($i = 0; $i < count($stats); $i++){
+	echo $stats[$i]["mean"] . ",\n";
+}
+?>
+];
+
+var statsDev = [
+<?php
+for($i = 0; $i < count($stats); $i++){
+	echo $stats[$i]["standardDeviation"] . ",\n";
+}
+?>
+];
+
+window.onload = function(){
+	canvas = document.getElementById("graph");
+	draw();
+}
+
+function draw(){
+	var ctx = canvas.getContext("2d");
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	ctx.strokeStyle = "#000";
+	ctx.beginPath();
+	var maxi = Math.max.apply(null, statsMean);
+	for(var i = 0; i < statsMean.length; i++)
+		ctx.lineTo(i * canvas.width / statsMean.length,
+		  canvas.height * (1. - statsMean[i] / maxi));
+	ctx.stroke();
+
+	ctx.strokeStyle = "#f00";
+	ctx.beginPath();
+	maxi = Math.max.apply(null, statsDev);
+	for(var i = 0; i < statsDev.length; i++)
+		ctx.lineTo(i * canvas.width / statsDev.length,
+		  canvas.height * (1. - statsDev[i] / maxi));
+	ctx.stroke();
+}
+</script>
+
 <?php htmlFooter(); ?>
 
 <?php function htmlHeader() { ?>
