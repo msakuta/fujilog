@@ -97,13 +97,27 @@ function draw(){
 		  canvas.height * (1. - statsMean[i] / maxi));
 	ctx.stroke();
 
-	ctx.strokeStyle = "#f00";
+	ctx.font = "12px/2 sans-serif";
+	ctx.beginPath();
+	ctx.moveTo(canvas.width - 50, 10.5);
+	ctx.lineTo(canvas.width - 40, 10.5);
+	ctx.stroke();
+	ctx.fillText("mean", canvas.width - 40, 15);
+
+	ctx.strokeStyle = "#000";
+	ctx.lineWidth = 2;
 	ctx.beginPath();
 	maxi = Math.max.apply(null, statsDev);
 	for(var i = 0; i < statsDev.length; i++)
 		ctx.lineTo(i * canvas.width / statsDev.length,
 		  canvas.height * (1. - statsDev[i] / maxi));
 	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(canvas.width - 50, 20);
+	ctx.lineTo(canvas.width - 40, 20);
+	ctx.stroke();
+	ctx.fillText("stdev", canvas.width - 40, 25);
 }
 </script>
 
