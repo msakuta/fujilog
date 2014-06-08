@@ -8,6 +8,7 @@ htmlHeader();
 <bl>
 <li><a href="live.php">Most recent image of Mt. Fuji</a>
 <li><a href="list.php">List of recent images</a>
+<li><a href="daily.php">List of images at the same time of day</a>
 <li><a href="stat.php">Statistics of recent images</a>
 <li><a href="upload.log">Log of all uploaded images</a> WARNING! It's very large, probably megabytes long.
 </bl>
